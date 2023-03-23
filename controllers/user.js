@@ -57,7 +57,10 @@ export const getMyProfile =  (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
-    res.status(200).cookie("token", "", { expires: new Date(Date.now()) })
+    res.status(200).cookie("token", "", { expires: new Date(Date.now()),
+      sameSite: process.env.NODE.ENV === "Developemnt"? "lax" : "none",
+      secure: process.env.NODE.ENV === "Developemnt"? false : true,
+    })
   .json({ success:true, user : req.user });
   } catch (error) {
     next(error);
